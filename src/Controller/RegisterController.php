@@ -26,7 +26,7 @@ class RegisterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user = $form->getData();
+            //$user = $form->getData();
 
             $password = $encoder->encodePassword($user,$user->getPassword());
 
