@@ -37,8 +37,6 @@ class RegisterController extends AbstractController
             $manager->flush();
         }
 
-
-
         return $this->render('register/index.html.twig', [
             'form' => $form->createView()
         ]);
