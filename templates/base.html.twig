@@ -9,9 +9,11 @@
     <title>{% block title %}La boutique{% endblock %}</title>
 
     <!-- Bootstrap core CSS -->
+    <link rel="shortcut icon" href="{{ asset('assets/img/logo-ecommerce.png') }}" type="image/x-icon">
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/boutique.css') }}">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    {% block javascript %}{% endblock %}
 
     <style>
         .bd-placeholder-img {
@@ -133,7 +135,9 @@
         </p>
     </footer>
 </main>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="{{ asset("assets/js/bootstrap.bundle.js") }}"></script>
 </body>
+{% block script %}{% endblock %}
 </html>

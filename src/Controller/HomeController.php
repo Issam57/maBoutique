@@ -17,8 +17,6 @@ class HomeController extends AbstractController
 
         $cart = $session->get('cart');
 
-        dd($cart);
-
         return $this->render('home/index.html.twig');
     }
 }
