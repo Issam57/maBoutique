@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classe\Mail;
 use App\Entity\User;
 use App\Form\RegisterType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +19,8 @@ class RegisterController extends AbstractController
      */
     public function index(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder): Response
     {
+        $notification = null;
+
         $user = new User();
 
         $form = $this->createForm(RegisterType::class, $user);
@@ -26,19 +29,39 @@ class RegisterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //$user = $form->getData();
+            $user = $form->getData();
 
-            $password = $encoder->encodePassword($user,$user->getPassword());
+            $search_email = $manager->getRepository(User::class)->findOneByEmail($user->getEmail());
 
-            $user->setPassword($password);
+            if (!$search_email) {
+                $password = $encoder->encodePassword($user,$user->getPassword());
 
-            $manager->persist($user);
+                $user->setPassword($password);
 
-            $manager->flush();
+                $manager->persist($user);
+
+                $manager->flush();
+
+                $mail = new Mail();
+                $content = "Bonjour ".$user->getFirstName()."<br>Bienvenue sur notre site";
+                $mail->send($user->getEmail(), $user->getFullName, 'Bienvenue sur la Boutique DZ', $content);
+
+                $notification = "Votre inscription s'est bien déroulée";
+            } else {
+
+                $notification = "L'email entré existe déjà";
+            }
+
+
+
+
+
+
         }
 
         return $this->render('register/index.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'notification' => $notification
         ]);
     }
 }
